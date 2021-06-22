@@ -41,8 +41,6 @@ class Disk(base.TypedDeviceBase):
             dict, keys: logical_block_size, physical_block_size
         geometry:
             dict, keys: cyls, heads, secs, trans
-        sharebacking:
-            dict, keys: yes
         address:
             libvirt_xml.devices.Address instance
         boot:
@@ -52,6 +50,8 @@ class Disk(base.TypedDeviceBase):
         readonly:
             bool, True/False
         transient:
+            bool, True/False
+        sharebacking:
             bool, True/False
         share:
             bool, True/False
@@ -74,8 +74,8 @@ class Disk(base.TypedDeviceBase):
    """
 
     __slots__ = ('device', 'rawio', 'sgio', 'snapshot', 'driver', 'target', 'alias',
-                 'address', 'boot', 'loadparm', 'readonly', 'transient', 'share', 'model',
-                 'mirror', 'ready', 'iotune', 'source', 'blockio', 'geometry', 'sharebacking'
+                 'address', 'boot', 'loadparm', 'readonly', 'transient', 'sharebacking', 'share', 'model',
+                 'mirror', 'ready', 'iotune', 'source', 'blockio', 'geometry',
                  'wwn', 'serial', 'vendor', 'product', 'encryption', 'auth',
                  'reservations', 'backingstore', 'drivermetadata')
 
@@ -108,8 +108,6 @@ class Disk(base.TypedDeviceBase):
                                  tag_name='blockio')
         accessors.XMLElementDict('geometry', self, parent_xpath='/',
                                  tag_name='geometry')
-        accessors.XMLElementDict('sharebacking', self, parent_xpath='/',
-                                 tag_name='sharebacking')
         accessors.XMLElementNest('address', self, parent_xpath='/',
                                  tag_name='address', subclass=self.Address,
                                  subclass_dargs={'type_name': 'drive',
@@ -122,6 +120,8 @@ class Disk(base.TypedDeviceBase):
                                  tag_name='readonly')
         accessors.XMLElementBool('transient', self, parent_xpath='/',
                                  tag_name='transient')
+        accessors.XMLElementBool('sharebacking', self, parent_xpath='/',
+                                 tag_name="shareBacking='yes'")
         accessors.XMLElementBool('share', self, parent_xpath='/',
                                  tag_name='shareable')
         accessors.XMLElementNest('source', self, parent_xpath='/',
